@@ -17,7 +17,7 @@ def home(request):
         )
     room_count = rooms.count()
     topics = Topic.objects.all()[0:5]
-    room_messages = Message.objects.filter(Q(room__name__icontains=q))
+    room_messages = Message.objects.filter(Q(room__name__icontains=q)).order_by("-created")
     context = {'rooms': rooms,
                 'topics': topics,
                 'room_count': room_count,
@@ -193,6 +193,6 @@ def topics(request):
     return render(request, 'base/topics.html', context)
 
 def activities_page(request):
-    activities = Message.objects.order_by('-created')[:10]
+    activities = Message.objects.order_by('-created')[:5]
     context = {'activities': activities}
     return render(request, 'base/activities.html', context)
