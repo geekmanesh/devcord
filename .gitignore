@@ -192,3 +192,8 @@ logs/
 # Local development
 local_settings.py
 .env.local
+
+*/migrations/[0-9]*.py
+*/migrations/__pycache__/
+
+static/*
