@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from environs import env
+
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,10 +42,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "base.apps.BaseConfig",
     "rest_framework",
-    'corsheaders',
+    "corsheaders",
 ]
 
-AUTH_USER_MODEL = 'base.User'
+AUTH_USER_MODEL = "base.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -52,7 +55,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
     "corsheaders.middleware.CorsMiddleware",
 ]
 
@@ -61,9 +63,7 @@ ROOT_URLCONF = "devcord.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            BASE_DIR / 'templates'
-        ],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -83,8 +83,12 @@ WSGI_APPLICATION = "devcord.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env.str("DB_NAME"),
+        "USER": env.str("DB_USER"),
+        "PASSWORD": env.str("DB_PASSWORD"),
+        "HOST": env.str("DB_HOST", "localhost"),
+        "PORT": env.str("DB_PORT", "5432"),
     }
 }
 
@@ -126,14 +130,12 @@ USE_TZ = True
 STATIC_URL = "static/"
 MEDIA_URL = "/images/"
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_ROOT = BASE_DIR / "static/images"
 
 
-# STATIC_ROOT = 
+# STATIC_ROOT =
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
